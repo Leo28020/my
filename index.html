@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Brother — Happy Raksha Bandhan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   VARIABLES & BASE
+   ============================================ */
+:root {
+  --maroon: #7A1F3D;
+  --maroon-deep: #4E1027;
+  --gold: #D9A441;
+  --gold-soft: #F0CA80;
+  --rose: #F2A6B3;
+  --cream: #FFF6E9;
+  --plum: #3A1220;
+  --night: #241128;
+  --shadow: rgba(58, 18, 32, 0.25);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Nunito', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+  color: var(--cream);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night) 0%, var(--maroon-deep) 45%, var(--maroon) 75%, var(--gold-soft) 100%);
+  background-attachment: fixed;
+}
+
+/* ---------- Sections (the "4 pages") ---------- */
+.page-section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: none;
+}
+
+.page-section.active {
+  display: block;
+}
+
+/* ---------- Falling stars ---------- */
+.stars-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  top: -5%;
+  color: var(--gold-soft);
+  font-size: 14px;
+  opacity: 0.85;
+  animation: fall linear infinite;
+  filter: drop-shadow(0 0 3px rgba(217, 164, 65, 0.6));
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.7; }
+  100% { transform: translateY(110vh) translateX(30px) rotate(200deg); opacity: 0; }
+}
+
+/* ---------- Rising balloons ---------- */
+.balloons-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.balloon {
+  position: absolute;
+  bottom: -20%;
+  width: 34px;
+  height: 42px;
+  border-radius: 50% 50% 48% 48% / 58% 58% 42% 42%;
+  animation: rise linear infinite;
+  box-shadow: inset -6px -6px 10px rgba(0,0,0,0.12), inset 6px 6px 10px rgba(255,255,255,0.25);
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  width: 1px;
+  height: 18px;
+  background: rgba(255,246,233,0.35);
+  transform: translateX(-50%);
+}
+
+@keyframes rise {
+  0% { transform: translateY(0) translateX(0) rotate(-4deg); opacity: 0; }
+  8% { opacity: 0.95; }
+  50% { transform: translateY(-55vh) translateX(20px) rotate(4deg); }
+  92% { opacity: 0.9; }
+  100% { transform: translateY(-115vh) translateX(-15px) rotate(-4deg); opacity: 0; }
+}
+
+/* ---------- Tap hearts ---------- */
+.tap-heart {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  font-size: 20px;
+  color: var(--gold-soft);
+  animation: heart-float 1.4s ease-out forwards;
+}
+
+@keyframes heart-float {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
+  100% { transform: translate(-50%, -180%) scale(1.3); opacity: 0; }
+}
+
+/* ---------- Rakhi motif divider ---------- */
+.rakhi-motif {
+  display: block;
+  margin: 26px auto;
+  width: 70px;
+  height: auto;
+  opacity: 0.9;
+}
+
+/* ---------- Music toggle button ---------- */
+.music-toggle {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 100;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gold);
+  color: var(--night);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease;
+}
+
+.music-toggle:hover { transform: scale(1.08); }
+.music-toggle:active { transform: scale(0.95); }
+
+/* ---------- Nav arrows ---------- */
+.page-nav {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px clamp(20px, 6vw, 60px);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  color: var(--gold-soft);
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 1.5px solid var(--gold-soft);
+  border-radius: 30px;
+  transition: all 0.25s ease;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.nav-link:hover { background: var(--gold-soft); color: var(--night); }
+
+.nav-link.primary { background: var(--gold); border-color: var(--gold); color: var(--night); }
+.nav-link.primary:hover { background: var(--gold-soft); border-color: var(--gold-soft); }
+
+/* ---------- Reveal utility ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Photo frame ---------- */
+.photo-frame {
+  position: relative;
+  border-radius: 10px;
+  padding: 10px;
+  background: var(--cream);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.35), 0 0 0 1.5px var(--gold);
+  transform: rotate(var(--tilt, -2deg));
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.photo-frame .photo-placeholder {
+  display: flex;
+  width: 100%;
+  min-height: 220px;
+  border-radius: 4px;
+}
+
+.photo-placeholder {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--rose), var(--gold-soft));
+  color: var(--plum);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  padding: 12px;
+}
+
+/* ============================================
+   SECTION 1 — OPENING
+   ============================================ */
+.hero {
+  position: relative;
+  z-index: 5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.rakhi-wrap { margin-bottom: 18px; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4)); }
+
+.title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  color: var(--gold-soft);
+  text-shadow: 0 2px 18px rgba(0,0,0,0.4);
+  letter-spacing: 0.01em;
+}
+
+.subtitle {
+  margin-top: 14px;
+  font-weight: 400;
+  font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+  color: var(--cream);
+  line-height: 1.6;
+  max-width: 480px;
+  transition-delay: 0.15s;
+}
+
+.begin-btn { margin-top: 34px; transition-delay: 0.3s; }
+
+.hint {
+  margin-top: 22px;
+  font-size: 0.8rem;
+  color: rgba(255,246,233,0.7);
+  transition-delay: 0.45s;
+}
+
+/* ============================================
+   SECTION 2 — EMOTIONAL LETTER
+   ============================================ */
+.letter {
+  position: relative;
+  z-index: 5;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 20px 24px 100px;
+  text-align: center;
+}
+
+.letter-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2rem, 6vw, 2.9rem);
+  color: var(--gold-soft);
+  margin-bottom: 6px;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.3);
+}
+
+.line {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 3.2vw, 1.5rem);
+  font-weight: 500;
+  color: var(--cream);
+  line-height: 1.65;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.line.emphasis { color: var(--gold-soft); font-style: italic; font-weight: 600; }
+
+.continue-btn { display: inline-block; margin-top: 40px; }
+
+/* ============================================
+   SECTION 3 — TWO PHOTOS + WISHES
+   ============================================ */
+.wishes {
+  position: relative;
+  z-index: 5;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 24px 100px;
+  text-align: center;
+}
+
+.wishes-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 5.6vw, 2.7rem);
+  color: var(--gold-soft);
+  margin-bottom: 32px;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.3);
+}
+
+.photo-row {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.photo-row .photo-frame { width: 220px; height: auto; }
+
+.wish-text {
+  font-size: clamp(1rem, 2.6vw, 1.15rem);
+  line-height: 1.75;
+  color: var(--cream);
+  max-width: 480px;
+  margin: 0 auto 18px;
+}
+
+/* ============================================
+   SECTION 4 — FINAL PHOTO + PROMISE
+   ============================================ */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  overflow: hidden;
+}
+
+.promise {
+  position: relative;
+  z-index: 5;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 10px 24px 90px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.final-photo { width: 200px; height: auto; margin-bottom: 26px; }
+
+.promise-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: var(--gold-soft);
+  margin-bottom: 16px;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.3);
+}
+
+.promise-text {
+  font-size: clamp(1rem, 2.6vw, 1.15rem);
+  line-height: 1.75;
+  color: var(--cream);
+}
+
+.tie-btn {
+  margin-top: 30px;
+  padding: 14px 30px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  border-radius: 40px;
+  border: none;
+  background: var(--gold);
+  color: var(--night);
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.tie-btn:hover { background: var(--gold-soft); transform: translateY(-2px); }
+.tie-btn:active { transform: scale(0.96); }
+.tie-btn.tied { background: var(--gold-soft); pointer-events: none; }
+
+.signature {
+  margin-top: 34px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--gold-soft);
+  line-height: 1.6;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -5%;
+  width: 8px;
+  height: 14px;
+  opacity: 0.95;
+  animation: confetti-fall 2.6s ease-in forwards;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) rotate(540deg); opacity: 0; }
+}
+
+@media (max-width: 480px) {
+  .rakhi-wrap svg { width: 140px; height: 140px; }
+  .rakhi-motif { width: 56px; margin: 18px auto; }
+  .photo-row { flex-direction: column; gap: 26px; }
+  .photo-row .photo-frame { width: 80vw; max-width: 300px; height: auto; transform: none; }
+  .final-photo { width: 80vw; max-width: 300px; height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star, .balloon, .reveal, .tap-heart { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ============================================
+   GIFT OPEN OVERLAY — the tap that starts the music
+   ============================================ */
+#giftOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  cursor: pointer;
+  background: radial-gradient(circle at 50% 40%, var(--maroon) 0%, var(--maroon-deep) 55%, var(--night) 100%);
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+#giftOverlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gift-icon {
+  font-size: 4rem;
+  animation: gift-pulse 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.4));
+}
+
+@keyframes gift-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+.gift-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  color: var(--gold-soft);
+  margin-top: 20px;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+
+.gift-subtitle {
+  margin-top: 10px;
+  font-size: clamp(0.9rem, 2.4vw, 1.05rem);
+  color: var(--cream);
+  opacity: 0.85;
+  max-width: 340px;
+}
+
+.gift-btn {
+  margin-top: 30px;
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  border-radius: 40px;
+  border: none;
+  background: var(--gold);
+  color: var(--night);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+</style>
+</head>
+<body>
+
+  <!-- Gift-open screen: this tap is what starts the music. No browser
+       allows sound to play before a visitor interacts with the page at
+       all, so this screen turns that required first tap into part of
+       the surprise instead of a limitation. -->
+  <div id="giftOverlay" onclick="openGift()">
+    <div class="gift-icon">🎁</div>
+    <h1 class="gift-title">A little something for you...</h1>
+    <p class="gift-subtitle">Turn your sound on, then tap to open.</p>
+    <button class="gift-btn" onclick="openGift()">Tap to Open 🎗️</button>
+  </div>
+
+  <!-- Background music: replace assets/song.mp3 with your own file. -->
+  <audio id="bgm" src="Roberrt  Nin Edurali Naanu  Darshan  Vinnod  Arjun Janya  Tharun Kishore Sudhir Umapathy Films_MP3 (1).mp3" loop preload="auto" playsinline></audio>
+  <button id="musicToggle" class="music-toggle" aria-label="Toggle music">♫</button>
+
+  <div class="stars-layer" id="starsLayer"></div>
+  <div class="balloons-layer" id="balloonsLayer"></div>
+  <div class="confetti-layer" id="confettiLayer"></div>
+
+  <!-- ============================================
+       SECTION 1 — OPENING PAGE
+       ============================================ -->
+  <section class="page-section active" id="section1">
+    <main class="hero">
+      <div class="rakhi-wrap">
+        <svg id="rakhiSvg" viewBox="0 0 200 200" width="180" height="180">
+          <path id="threadLeft" d="M 20 100 Q 60 60, 92 96" fill="none" stroke="#D9A441" stroke-width="4" stroke-linecap="round"/>
+          <path id="threadRight" d="M 180 100 Q 140 60, 108 96" fill="none" stroke="#D9A441" stroke-width="4" stroke-linecap="round"/>
+          <circle id="charmOuter" cx="100" cy="100" r="0" fill="#7A1F3D"/>
+          <circle id="charmInner" cx="100" cy="100" r="0" fill="#F2A6B3"/>
+          <path id="charmStar" d="M100,88 L104,97 L114,97 L106,103 L109,113 L100,107 L91,113 L94,103 L86,97 L96,97 Z" fill="#D9A441" opacity="0"/>
+        </svg>
+      </div>
+
+      <h1 class="title reveal">Happy Raksha Bandhan</h1>
+      <p class="subtitle reveal">ನೀವು ಸಿಕ್ಕಿರೋದು ನನ್ನ ಲಕ್ ಅಣ್ಣಾ..💖</p>
+
+      <button class="nav-link primary reveal begin-btn" onclick="goToSection(2)">ನನ್ನ ಮನಸ್ಸಿನ ಮಾತು &nbsp;→</button>
+
+      <p class="hint reveal">tap anywhere for a little something ♡</p>
+    </main>
+  </section>
+
+  <!-- ============================================
+       SECTION 2 — EMOTIONAL LINES
+       ============================================ -->
+  <section class="page-section" id="section2">
+    <nav class="page-nav">
+      <button class="nav-link" onclick="goToSection(1)">← Back</button>
+      <button class="nav-link primary" onclick="goToSection(3)">Continue →</button>
+    </nav>
+
+    <main class="letter">
+      <h1 class="letter-heading reveal">"ನನ್ನ ಮನಸ್ಸಲ್ಲೇ ಉಳಿದುಹೋದ ಕೆಲವು ಮಾತುಗಳು" 💖</h1>
+
+      <svg class="rakhi-motif reveal" viewBox="0 0 100 40"><path d="M10 20 Q30 5 50 20 Q70 35 90 20" fill="none" stroke="#D9A441" stroke-width="2.5" stroke-linecap="round"/><circle cx="50" cy="20" r="6" fill="#7A1F3D"/></svg>
+      <p class="line reveal">"ರಕ್ತದ ಸಂಬಂಧಕ್ಕಿಂತ ಹೆಚ್ಚಾಗಿ, ಮನಸ್ಸಿನ ಭಾವನೆಗಳನ್ನ ಮಾತಿಲ್ಲದೆ ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳೋ ಸುಂದರ ಬಾಂದವ್ಯ ಇದು." 🌸💖</p>
+
+      <svg class="rakhi-motif reveal" viewBox="0 0 100 40"><path d="M10 20 Q30 5 50 20 Q70 35 90 20" fill="none" stroke="#D9A441" stroke-width="2.5" stroke-linecap="round"/><circle cx="50" cy="20" r="6" fill="#7A1F3D"/></svg>
+      <p class="line reveal">"ಜಗತ್ತಿನ ಅತ್ಯಂತ ಸುರಕ್ಷಿತ ಜಾಗ ಅಂದ್ರೆ ಅದು ನನ್ನ ಅಣ್ಣನ ನೆರಳು." 💖.</p>
+
+      <svg class="rakhi-motif reveal" viewBox="0 0 100 40"><path d="M10 20 Q30 5 50 20 Q70 35 90 20" fill="none" stroke="#D9A441" stroke-width="2.5" stroke-linecap="round"/><circle cx="50" cy="20" r="6" fill="#7A1F3D"/></svg>
+      <p class="line reveal">"ನಾವು ಎಷ್ಟೇ ದೂರವಿದ್ದರೂ, ನನ್ನ ಪ್ರೀತಿ ಮತ್ತು ಹಾರೈಕೆ ಸದಾ ಈ ರಾಖಿಯ ರೂಪದಲ್ಲಿ ನಿನ್ನ ಜೊತೆಯಲ್ಲೇ ಇರುತ್ತೆ ಅಣ್ಣಾ</p>
+
+      <svg class="rakhi-motif reveal" viewBox="0 0 100 40"><path d="M10 20 Q30 5 50 20 Q70 35 90 20" fill="none" stroke="#D9A441" stroke-width="2.5" stroke-linecap="round"/><circle cx="50" cy="20" r="6" fill="#7A1F3D"/></svg>
+      <p class="line emphasis reveal">"ನಾನು ಕಟ್ಟುವ ಈ ದಾರ ಕೇವಲ ಒಂದು ಸಂಪ್ರದಾಯವಲ್ಲ. ಇದು ಎಂದಿಗೂ ಬಿಡಿಸಲಾಗದ ಗಂಟಿನಂಥ ಭರವಸೆ." 🥺❤️.</p>
+
+      <button class="nav-link primary reveal continue-btn" onclick="goToSection(3)">Keep going →</button>
+    </main>
+  </section>
+
+  <!-- ============================================
+       SECTION 3 — TWO PHOTOS + WISHES
+       ============================================ -->
+  <section class="page-section" id="section3">
+    <nav class="page-nav">
+      <button class="nav-link" onclick="goToSection(2)">← Back</button>
+      <button class="nav-link primary" onclick="goToSection(4)">Continue →</button>
+    </nav>
+
+    <main class="wishes">
+      <h1 class="wishes-heading reveal">ನಿಮ್ಮ  ಖುಷಿಗಿಂತ  ದೊಡ್ಡದು  ನನಗೆ  ಯಾವುದೂ  ಇಲ್ಲ  ಅಣ್ಣ. 😍❤️</h1>
+
+      <div class="photo-row reveal">
+        <!-- Replace with your own photo, e.g. assets/photo1.jpg -->
+        <div class="photo-frame" style="--tilt:-4deg;">
+          <div class="photo-placeholder"><img src="14.jpg"></div>
+        </div>
+        <div class="photo-frame" style="--tilt:3deg;">
+          <div class="photo-placeholder"><img src="12.jpg"></div>
+        </div>
+      </div>
+
+      <p class="wish-text reveal">
+      "ನೀವು ನನಗೆ ಸದಾ ನೀಡಿದ ಆಸರೆಯಷ್ಟೇ ಸುಂದರವಾಗಿ 
+      ನಿಮ್ಮ 😊 ಈ ವರ್ಷವೂ ಮೂಡಿಬರಲಿ ಎಂದು ಹಾರೈಸುತ್ತೇನೆ.
+       ನಿಮ್ಮ ಬದುಕಿನಲ್ಲಿ ಆತಂಕಗಳಿಗಿಂತ ನಗುವೇ 😊 ಹೆಚ್ಚಿರಲಿ, 
+       ನಿರಂತರ ಓಟಕ್ಕಿಂತ ಮನಸ್ಸಿಗೆ ನೆಮ್ಮದಿಯ ವಿಶ್ರಾಂತಿ ಸಿಗಲಿ. 
+       ಜೊತೆಗೆ — ಯಾವುದೇ ಪರಿಸ್ಥಿತಿಯಲ್ಲೂ — ನಿಮಗಾಗಿ ಸದಾ ಪ್ರಾರ್ಥಿಸುವ🥺❤️ ಮತ್ತು 
+        ನಿಮ್ಮ ಯಶಸ್ಸನ್ನು ಬಯಸುವ ಒಂದು ಜೀವ 🤝✨  ನಿಮ್ಮ ಬೆನ್ನ ಹಿಂದೆ ಇದೆ ಎಂಬುದು
+         ನಿಮಗೆ ಯಾವತ್ತೂ ನೆನಪಿರಲಿ." 🥺✨
+      </p>
+
+      <p class="wish-text reveal">Happy Raksha Bandhan, my forever favorite person .</p>
+
+      <button class="nav-link primary reveal continue-btn" onclick="goToSection(4)">One more thing →</button>
+    </main>
+  </section>
+
+  <!-- ============================================
+       SECTION 4 — FINAL PHOTO + PROMISE
+       ============================================ -->
+  <section class="page-section" id="section4">
+    <nav class="page-nav">
+      <button class="nav-link" onclick="goToSection(3)">← Back</button>
+      <button class="nav-link" onclick="goToSection(1)">Start over ↻</button>
+    </nav>
+
+    <main class="promise">
+      <div class="photo-frame reveal final-photo" style="--tilt:-2deg;">
+        <!-- Replace with your own photo, e.g. assets/photo3.jpg -->
+        <div class="photo-placeholder"><img src="16.jpg"></div>
+      </div>
+
+      <h1 class="promise-heading reveal">"ಏನೇ ಬಂದರೂ..."</h1>
+
+      <p class="promise-text reveal">
+       "ನಮ್ಮ ನಡುವೆ ಎಷ್ಟೇ ದೂರವಿದ್ದರೂ, ಎಷ್ಟೇ ಜಗಳಗಳಾಗಿದ್ದರೂ🥺✨, 
+       ಮತ್ತು ಕಾಲ ನಮ್ಮನ್ನು ಬೇರೆ ಬೇರೆ ದಿಕ್ಕಿಗೆ 🥺✨
+       ಎಳೆದೊಯ್ದಿದ್ದರೂ — ನಾನು ಯಾವತ್ತಿಗೂ ನಿಮ್ಮ ತಂಗಿಯೇ❤️.
+        ಈ ಪವಿತ್ರ ದಾರವನ್ನು ಕಟ್ಟುತ್ತಾ, ನಾನು ಈ ಭರವಸೆಯನ್ನು ನೀಡುತ್ತಿದ್ದೇನೆ: 
+        ಮುಂದೆ ಏನೇ ಬಂದರೂ, ನಾವಿಬ್ಬರೂ ಜೊತೆಯಾಗಿಯೇ ಎದುರಿಸೋಣ." 🥺❤️.
+      </p>
+
+      <button id="tieBtn" class="tie-btn reveal">Tie the thread 🧵</button>
+
+      <p class="signature reveal">Happy Raksha Bandhan.<br>"ಇಂತಿ ನಿಮ್ಮ ಪ್ರೀತಿಯ — ನಿಮ್ಮ ತಂಗಿ" 🥺❤️.</p>
+    </main>
+  </section>
+
+<script>
+/* ============================================
+   BACKGROUND MUSIC
+   ============================================ */
+function setMusicIcon(playing) {
+  const toggleBtn = document.getElementById('musicToggle');
+  toggleBtn.textContent = playing ? '♫' : '⏸';
+  toggleBtn.setAttribute('aria-label', playing ? 'Pause music' : 'Play music');
+}
+
+function initMusicToggle() {
+  const audio = document.getElementById('bgm');
+  const toggleBtn = document.getElementById('musicToggle');
+  toggleBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().then(() => setMusicIcon(true)).catch(() => setMusicIcon(false));
+    } else {
+      audio.pause();
+      setMusicIcon(false);
+    }
+  });
+}
+
+/* ============================================
+   GIFT OPEN — the tap that starts everything
+   ============================================ */
+function openGift() {
+  const overlay = document.getElementById('giftOverlay');
+  const audio = document.getElementById('bgm');
+
+  // This runs directly inside a click handler, so every browser treats
+  // it as a genuine user gesture and allows sound to start right here.
+  audio.play().then(() => setMusicIcon(true)).catch(() => setMusicIcon(false));
+
+  overlay.classList.add('hidden');
+  playRakhiTieAnimation();
+  revealSection(document.getElementById('section1'), 300);
+}
+
+/* ============================================
+   FALLING STARS
+   ============================================ */
+function initFallingStars(count = 20) {
+  const layer = document.getElementById('starsLayer');
+  const glyphs = ['✦', '✧', '⋆', '✩'];
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('span');
+    star.className = 'star';
+    star.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.fontSize = 8 + Math.random() * 14 + 'px';
+    const duration = 8 + Math.random() * 10;
+    star.style.animationDuration = duration + 's';
+    star.style.animationDelay = (Math.random() * duration) + 's';
+    layer.appendChild(star);
+  }
+}
+
+/* ============================================
+   RISING BALLOONS
+   ============================================ */
+function initBalloons(count = 10) {
+  const layer = document.getElementById('balloonsLayer');
+  const colors = ['#7A1F3D', '#D9A441', '#F2A6B3', '#F0CA80'];
+  for (let i = 0; i < count; i++) {
+    const balloon = document.createElement('div');
+    balloon.className = 'balloon';
+    balloon.style.left = Math.random() * 96 + 'vw';
+    balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+    const scale = 0.7 + Math.random() * 0.7;
+    balloon.style.transform = `scale(${scale})`;
+    const duration = 14 + Math.random() * 12;
+    balloon.style.animationDuration = duration + 's';
+    balloon.style.animationDelay = (Math.random() * duration) + 's';
+    layer.appendChild(balloon);
+  }
+}
+
+/* ============================================
+   TAP / CLICK HEARTS
+   ============================================ */
+function initTapHearts() {
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a, button')) return;
+    const heart = document.createElement('span');
+    heart.className = 'tap-heart';
+    heart.textContent = Math.random() > 0.5 ? '❤' : '♥';
+    heart.style.left = e.clientX + 'px';
+    heart.style.top = e.clientY + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 1450);
+  });
+}
+
+/* ============================================
+   RAKHI TIE ANIMATION (section 1)
+   ============================================ */
+function playRakhiTieAnimation() {
+  const threadLeft = document.getElementById('threadLeft');
+  const threadRight = document.getElementById('threadRight');
+  const charmOuter = document.getElementById('charmOuter');
+  const charmInner = document.getElementById('charmInner');
+  const charmStar = document.getElementById('charmStar');
+
+  [threadLeft, threadRight].forEach((path) => {
+    const length = path.getTotalLength();
+    path.style.transition = 'none';
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+  });
+  charmOuter.style.transition = 'none';
+  charmInner.style.transition = 'none';
+  charmStar.style.transition = 'none';
+  charmOuter.setAttribute('r', '0');
+  charmInner.setAttribute('r', '0');
+  charmStar.style.opacity = '0';
+
+  requestAnimationFrame(() => {
+    [threadLeft, threadRight].forEach((path, i) => {
+      path.style.transition = `stroke-dashoffset 1.1s ease ${i * 0.15}s`;
+      path.style.strokeDashoffset = '0';
+    });
+  });
+
+  setTimeout(() => {
+    charmOuter.style.transition = 'r 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    charmInner.style.transition = 'r 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s';
+    charmOuter.setAttribute('r', '16');
+    charmInner.setAttribute('r', '9');
+  }, 1200);
+
+  setTimeout(() => {
+    charmStar.style.transition = 'opacity 0.4s ease';
+    charmStar.style.opacity = '1';
+  }, 1750);
+}
+
+/* ============================================
+   REVEAL (staggered fade-up for each section)
+   ============================================ */
+function revealSection(sectionEl, extraDelay = 0) {
+  const items = sectionEl.querySelectorAll('.reveal');
+  items.forEach((el) => el.classList.remove('is-visible'));
+  items.forEach((el, i) => {
+    setTimeout(() => el.classList.add('is-visible'), extraDelay + i * 120);
+  });
+}
+
+/* ============================================
+   SECTION NAVIGATION
+   ============================================ */
+function goToSection(num) {
+  document.querySelectorAll('.page-section').forEach((sec) => sec.classList.remove('active'));
+  const target = document.getElementById('section' + num);
+  target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+
+  if (num === 1) {
+    playRakhiTieAnimation();
+    revealSection(target, 1500);
+  } else {
+    revealSection(target, 100);
+  }
+}
+
+/* ============================================
+   TIE THE THREAD BUTTON (section 4 confetti)
+   ============================================ */
+function initTieButton() {
+  const btn = document.getElementById('tieBtn');
+  const layer = document.getElementById('confettiLayer');
+  const colors = ['#D9A441', '#7A1F3D', '#F2A6B3', '#FFF6E9'];
+
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('tied')) return;
+    btn.textContent = 'Thread tied 🧡';
+    btn.classList.add('tied');
+
+    for (let i = 0; i < 60; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = (Math.random() * 0.6) + 's';
+      piece.style.animationDuration = (2 + Math.random() * 1.4) + 's';
+      if (Math.random() > 0.5) piece.style.borderRadius = '50%';
+      layer.appendChild(piece);
+      setTimeout(() => piece.remove(), 4200);
+    }
+  });
+}
+
+/* ============================================
+   INIT
+   ============================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  initMusicToggle();
+  initFallingStars();
+  initBalloons();
+  initTapHearts();
+  initTieButton();
+});
+</script>
+</body>
+</html>
